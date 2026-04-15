@@ -8,10 +8,11 @@ class ActivationListener : ActorGestureListener(20f, 0.25f, 1.1f, Int.MAX_VALUE.
     // defaults are: halfTapSquareSize = 20, tapCountInterval = 0.4f, longPressDuration = 1.1f, maxFlingDelay = Integer.MAX_VALUE
 
     override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
-        event?.listenerActor ?: return
-        ActivationTypes.entries.firstOrNull {
+        if (event == null) return
+        val type = ActivationTypes.entries.firstOrNull {
             it.isGesture && it.button == button
-        } ?: return
+        } 
+        if (type == null) return
         event.stop()
     }
     
