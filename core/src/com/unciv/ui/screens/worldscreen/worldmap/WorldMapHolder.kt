@@ -550,6 +550,7 @@ class WorldMapHolder(
                 worldScreen.shouldUpdate = true
                 removeUnitActionOverlay()
             }
+            ActorAttachments.get(clickableCircle).allowEventPropagation = false
             unitIconGroup.addActor(clickableCircle)
             table.add(unitIconGroup)
         }

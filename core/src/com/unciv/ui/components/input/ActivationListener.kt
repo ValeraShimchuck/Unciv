@@ -3,13 +3,20 @@ package com.unciv.ui.components.input
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener
+import com.unciv.ui.images.IconCircleGroup
+import kotlin.streams.toList
 
 class ActivationListener : ActorGestureListener(20f, 0.25f, 1.1f, Int.MAX_VALUE.toFloat()) {
     // defaults are: halfTapSquareSize = 20, tapCountInterval = 0.4f, longPressDuration = 1.1f, maxFlingDelay = Integer.MAX_VALUE
 
     override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int) {
         if (event == null) return
-        if (ActivationTypes.entries.none { it.isGesture && it.button == button }) return
+        val attachments = ActorAttachments.getOrNull(event.listenerActor) ?: return
+        if (attachments.allowEventPropagation) return
+        val isInteractable = ActivationTypes.entries.any {
+            it.isGesture && it.button == button && attachments.canBeActivated(it)
+        }
+        if (!isInteractable) return
         event.stop()
     }
 

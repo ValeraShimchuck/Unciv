@@ -23,6 +23,7 @@ internal class ActorAttachments private constructor(actor: Actor) {
 
     private lateinit var activationActions: ActivationActionMap
     private var activationListener: ActivationListener? = null
+    var allowEventPropagation: Boolean = true
 
     /**
      *  Keyboard dispatcher for the [actor] this is attached to.
@@ -40,6 +41,12 @@ internal class ActorAttachments private constructor(actor: Actor) {
         if (!this::activationActions.isInitialized) return false
         if ((actor as? Disableable)?.isDisabled == true) return false // Skip if disabled
         return activationActions.activate(type)
+    }
+    
+    fun canBeActivated(type: ActivationTypes): Boolean {
+        if (!this::activationActions.isInitialized) return false
+        if ((actor as? Disableable)?.isDisabled == true) return false 
+        return activationActions.canBeActivated(type)
     }
 
     fun addActivationAction(

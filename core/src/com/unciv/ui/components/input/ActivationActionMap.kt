@@ -57,4 +57,9 @@ internal class ActivationActionMap : MutableMap<ActivationTypes, ActivationActio
             action.invoke()
         return true
     }
+    
+    fun canBeActivated(type: ActivationTypes): Boolean {
+        val actions = get(type) ?: return false
+        return !actions.isEmpty()
+    }
 }
