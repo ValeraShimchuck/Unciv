@@ -11,7 +11,6 @@ import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.scenes.scene2d.*
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.unciv.UncivGame
 import com.unciv.logic.battle.Battle
 import com.unciv.logic.battle.MapUnitCombatant
@@ -544,12 +543,11 @@ class WorldMapHolder(
             unitIconGroup.circle.color = Color.GRAY.cpy().apply { a = 0.5f }
             if (!unit.hasMovement()) unitIconGroup.color.a = 0.66f
             val clickableCircle = ClickableCircle(68f)
-            clickableCircle.onClick {
+            clickableCircle.onClickSuppressive {
                 worldScreen.bottomUnitTable.selectUnit(unit, Gdx.input.isShiftKeyPressed())
                 worldScreen.shouldUpdate = true
                 removeUnitActionOverlay()
             }
-            ActorAttachments.get(clickableCircle).allowEventPropagation = false
             unitIconGroup.addActor(clickableCircle)
             table.add(unitIconGroup)
         }
