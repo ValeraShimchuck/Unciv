@@ -65,7 +65,7 @@ internal class ActorAttachments private constructor(actor: Actor) {
         actions.add(type, sound, noEquivalence, action)
 
         if (!type.isGesture || activationListener != null) return
-        activationListener = if (allowEventPropagation) ActivationListener() else SuppresiveActivationListener()
+        activationListener = if (allowEventPropagation) ActivationListener() else SuppressiveActivationListener()
         actor.addListener(activationListener)
     }
 
